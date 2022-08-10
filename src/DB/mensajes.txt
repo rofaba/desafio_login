@@ -50,11 +50,11 @@
       "nombre": "Rodrigo",
       "apellido": "Faure",
       "edad": "46",
-      "alias": "rofaba",
-      "avatar": "https://static.vecteezy.com/system/resources/thumbnails/000/550/980/small/user_icon_001.jpg"
+      "alias": "The Rock",
+      "avatar": "https://i1.sndcdn.com/avatars-000668621474-g5g0sa-t240x240.jpg"
     },
     "text": {
-      "message": "probando escritura",
+      "message": "prueba 4",
       "id": 4
     }
   }

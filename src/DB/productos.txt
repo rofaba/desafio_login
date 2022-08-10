@@ -18,9 +18,27 @@
     "id": 3
   },
   {
-    "title": "electronic granite mouse",
-    "price": "24990",
-    "thumbnail": "https://http2.mlstatic.com/D_NQ_NP_2X_776087-MLC50069900369_052022-F.webp",
+    "title": "",
+    "price": "",
+    "thumbnail": "",
     "id": 4
+  },
+  {
+    "title": "",
+    "price": "",
+    "thumbnail": "",
+    "id": 5
+  },
+  {
+    "title": "",
+    "price": "",
+    "thumbnail": "",
+    "id": 6
+  },
+  {
+    "title": "",
+    "price": "",
+    "thumbnail": "",
+    "id": 7
   }
 ]

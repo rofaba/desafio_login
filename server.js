@@ -19,8 +19,13 @@ const { inspect } = require('util');
 const session = require('express-session');
 
 // MONGOATLAS
-const MongoStore = require("connect-mongo");
+const connectMongo = require("connect-mongo");
 const options = { useNewUrlParser: true, useUnifiedTopology: true };
+const MongoStore = connectMongo.create({
+  mongoUrl: "mongodb+srv://Coder:Coder123@cluster0.axvlwym.mongodb.net/?retryWrites=true&w=majority",
+  mongoOptions: options,  
+  ttl: 60
+});
 
 //TEMPLATE ENGINE
 const exphbs = require('express-handlebars');
@@ -37,14 +42,15 @@ app.use(express.urlencoded({ extend: true }))
 app.use(express.static(__dirname + '/public'));
 
 //Session config
-app.use(session({
+app.use(
+  session({
+    store: MongoStore,
     secret: '12345',
-    store: MongoStore.create({
-      mongoUrl: "mongodb+srv://Coder:Coder123@cluster0.axvlwym.mongodb.net/?retryWrites=true&w=majority",
-      mongoOptions: options,
-    }),
+    resave: false,
+    saveUninitialized: false,
+    
   })
-  );
+);
 
 //FAKE DATA
 const mockerdata = require('./src/api/mocker');
@@ -137,18 +143,28 @@ app.get('/', (req, res) => {
 });
 
 app.post('/api', (req, res) => {
-  let nombreUsuario = req.body.name;
-    req.session.user = nombreUsuario;
-    req.session.admin = true
+  
+    req.session.user = req.body.name;
     usuario = req.session.user
     res.redirect ("/api")
 });    
 
+app.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (!err) res.render('logout', {usuario});
+    else res.send({ status: "Logout error", body: err });
+  });
+});
+
+
 app.get('/api', (req, res) => {
     console.log(req.session.user)
+    if (req.session.user){
+      res.render('index', {usuario: req.session.user})
+    } else return res.redirect('/')
     // res.render('welcome'), {"user": req.session.user} 
-    res.render('index')
-})
+});
+
 app.post('/productos', (req, res) => {
     try {
         const nuevoProducto = req.body;
@@ -163,7 +179,7 @@ app.post('/productos', (req, res) => {
         let prodString = JSON.stringify(productos, null, 2)
         fs.promises.writeFile('./src/DB/productos.txt', prodString);
         console.log('producto guardado')
-        res.redirect('/')
+        res.redirect('/api')
     }
 
     catch (error) {
@@ -177,7 +193,7 @@ io.on('connection', socket => {
     socket.emit('user', usuario);
     socket.emit('productos', mockerdata); 
     // console.log(inspect(normalizedData, true, 12, true))
-    socket.emit('mensajes', datamsg.mensajes); 
+    socket.emit('mensajes', msgescritos); 
     socket.emit('compresion', porcentaje);
     
 

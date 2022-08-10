@@ -3,10 +3,13 @@
 const socket = io.connect();
 const date = new Date();
 
-socket.on('user', user => {
-    console.log(user);
-    renderWelcome(user);
-});
+
+
+
+// socket.on('user', user => {
+    
+//     renderWelcome(user);
+// });
 
 
 socket.on('productos', data => {
@@ -63,9 +66,6 @@ function renderTabla(data) {
 }
 
 // RENDERIZAR LOS MENSAJES
-
-
-
 function renderMensajes(mensajes) {
 
     console.log(mensajes);
@@ -80,7 +80,7 @@ function renderMensajes(mensajes) {
     }).join(" ");
     document.querySelector("#messages").innerHTML = chatWeb;
 }
-
+//AGREGAR MENSAJE
 function addMessage(e) {
  
         const mensaje = {
